@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [{
   path: '',
@@ -14,8 +15,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard',
-      pathMatch: 'full',
+      component: HomeComponent,
     },
   ],
 }];
