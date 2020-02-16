@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   NbAccordionModule,
   NbButtonModule,
-  NbCardModule, NbInputModule,
+  NbCardModule, NbCheckboxModule, NbInputModule,
   NbMenuModule,
   NbSelectModule,
   NbSpinnerModule, NbToggleStates,
@@ -29,6 +29,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
     NbSelectModule,
     NbInputModule,
+    NbCheckboxModule,
   ],
   declarations: [
     PagesComponent,

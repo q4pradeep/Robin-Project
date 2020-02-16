@@ -14,16 +14,21 @@
               <div class="form-col col-3">
                 <h6>{{detail.title}}</h6>
               </div>
-              <div class="form-col col-4">
-                <nb-select class="ml-3" placeholder="Exisitng Options" [(selected)]="selected[detail_i]">
+              <div class="form-col col-3">
+                <nb-select class="ml-3" placeholder="Exisitng Options"  [(selected)]="persistDetails[detail_i].detail_selection"
+                           [hidden]="persistDetails[detail_i].detail_isCustom">
                   <nb-option *ngFor="let dropmenu of getDropMenuItems(detail._id)"
                              [value]="dropmenu._id">{{dropmenu.title}}</nb-option>
                 </nb-select>
+                <nb-select class="ml-3" placeholder="Custom Value" [hidden]="!persistDetails[detail_i].detail_isCustom">
+                  <nb-option>Not available</nb-option>
+                </nb-select>
               </div>
-              <div class="form-col col-1">
+              <div class="form-col col-2">
+                <nb-checkbox (checkedChange)="customValueToggle($event, detail_i)">Custom Value</nb-checkbox>
               </div>
               <div class="form-col col-4">
-                <input nbInput>
+                <input name="custom value" nbInput [disabled]="!persistDetails[detail_i].detail_isCustom" [ngModel]="persistDetails[detail_i].detail_customVal">
               </div>
               <div class="col"><hr></div>
             </div>
@@ -32,6 +37,6 @@
       </div>
     </nb-card-body>
   </nb-card>
-
+  <b
 </div>
 

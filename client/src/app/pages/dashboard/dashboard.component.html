@@ -4,14 +4,19 @@
       <div class="text-center">
         <button *ngFor="let dashboard of dashboards" nbButton outline status="primary" class="mr-3"
                 (click)="openDetails(dashboard._id)">{{dashboard.title}}</button>
-        <button class="mr-3" nbButton outline status="success" (click)="dashboardPromptOpen()"><nb-icon icon="plus-outline"></nb-icon></button>
+        <button class="mr-3" nbButton outline status="success" (click)="dashboardPromptOpen()">
+          <nb-icon icon="plus-outline"></nb-icon>
+        </button>
       </div>
     </nb-card-header>
     <nb-card-body>
       <div class="model-info">
         <div *ngIf="(!details || details.length==0) && dashboard_id">
-          <div class="mt-5 text-center" >
-            <button nbButton outline status="success" size="small" (click)="featurePromptOpen()"><nb-icon icon="plus-outline"></nb-icon>Add Feature</button>
+          <div class="mt-5 text-center">
+            <button nbButton outline status="success" size="small" (click)="featurePromptOpen()">
+              <nb-icon icon="plus-outline"></nb-icon>
+              Add Feature
+            </button>
           </div>
         </div>
         <div *ngIf="details && details.length!==0">
@@ -24,34 +29,49 @@
                 <div class="row">
                   <div class="col text-wrap">
                     <input nbInput [ngModel]="detail.title" (ngModelChange)="detail.title = $event">
-                    <button class="ml-2" outline nbButton status="success" size="small" (click)="updateFeature(detail.title, detail._id, detail_i)">
-                      <nb-icon icon="checkmark-outline"></nb-icon></button>
+                    <button class="ml-2" outline nbButton status="success" size="small"
+                            (click)="updateFeature(detail.title, detail._id, detail_i)">
+                      <nb-icon icon="checkmark-outline"></nb-icon>
+                    </button>
                   </div>
                   <div class="col text-wrap">
-                    <nb-select class="ml-3" placeholder="Exisitng Options" [(selected)]="selected[detail_i]" >
-                      <nb-option *ngFor="let dropmenu of getDropMenuItems(detail._id)" [value]="dropmenu._id">{{dropmenu.title}}</nb-option>
+                    <nb-select class="ml-3" placeholder="Exisitng Options" [(selected)]="selected[detail_i]">
+                      <nb-option *ngFor="let dropmenu of getDropMenuItems(detail._id)"
+                                 [value]="dropmenu._id">{{dropmenu.title}}</nb-option>
                     </nb-select>
-                    <button class="ml-2" nbButton outline status="success" size="small" (click)="dropdownPromptOpen(detail._id, detail_i)">
-                      <nb-icon icon="plus-outline"></nb-icon></button>
-                    <button nbButton outline status="danger" size="small" (click)="dropmenuDeletePrompt(detail._id, selected[detail_i], detail_i)"> <nb-icon icon="trash-outline"></nb-icon></button>
+                    <button class="ml-2" nbButton outline status="success" size="small"
+                            (click)="dropdownPromptOpen(detail._id, detail_i)">
+                      <nb-icon icon="plus-outline"></nb-icon>
+                    </button>
+                    <button nbButton outline status="danger" size="small"
+                            (click)="dropmenuDeletePrompt(detail._id, selected[detail_i], detail_i)">
+                      <nb-icon icon="trash-outline"></nb-icon>
+                    </button>
                   </div>
                   <div class="col">
-                    <button class="float-right mr-2" nbButton status="danger" size="small" (click)="featureDeletePrompt(detail._id)"><nb-icon icon="trash-outline"></nb-icon></button>
+                    <button class="float-right mr-2" nbButton status="danger" size="small"
+                            (click)="featureDeletePrompt(detail._id)">
+                      <nb-icon icon="trash-outline"></nb-icon>
+                    </button>
                   </div>
                 </div>
               </nb-accordion-item-body>
             </nb-accordion-item>
           </nb-accordion>
-          <div class="mt-5 text-center" >
-            <button nbButton outline status="success" size="small" (click)="featurePromptOpen()"><nb-icon icon="plus-outline"></nb-icon>Add Feature</button>
+          <div class="mt-5 text-center">
+            <button nbButton outline status="success" size="small" (click)="featurePromptOpen()">
+              <nb-icon icon="plus-outline"></nb-icon>
+              Add Feature
+            </button>
           </div>
         </div>
       </div>
-      <div *ngIf="dashboard_id" class="mb-3 mr-3 mt-3 float-right" >
-        <button nbButton outline status="danger" size="medium" (click)="carDeletePrompt()"><nb-icon icon="trash-outline"></nb-icon>Remove Car</button>
+      <div *ngIf="dashboard_id" class="mb-3 mr-3 mt-3 float-right">
+        <button nbButton outline status="danger" size="medium" (click)="dashboardDeletePrompt()">
+          <nb-icon icon="trash-outline"></nb-icon>
+          Remove Dashboard
+        </button>
       </div>
     </nb-card-body>
   </nb-card>
-
 </div>
-

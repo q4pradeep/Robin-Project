@@ -4,20 +4,21 @@ import {Detail} from '../../models/detail.model';
 import {Dropmenu} from '../../models/dropmenu.model';
 import {NbDialogService} from '@nebular/theme';
 import {DetailService} from '../../detail.service';
+import {PersistDetail} from '../../models/persistDetails.model';
 
 @Component({
   selector: 'ngx-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit  {
   dashboard_id: string;
   dashboards: Dashboard[];
+  persistDetails: PersistDetail[] = new Array<PersistDetail>(100);
   details: Detail[];
   dropmenus: Dropmenu[] = [];
   dashboardSpinner: boolean = false;
-  selected = new Array<string>(50);
-  accStatus = new Array<boolean>(50);
+  selected = new Array<string>(100);
   constructor(
     private dialogService: NbDialogService,
     private detailService: DetailService,
@@ -34,13 +35,24 @@ export class UserComponent implements OnInit {
     this.details = [];
     this.detailService.getDetails(dashboard_id).subscribe((result: Detail[]) => {
       this.details = result;
+      this.prepareInput(this.details);
     });
+
     this.detailService.getSubDetails(dashboard_id).subscribe((result: Dropmenu[]) => {
       this.dropmenus = result;
     });
+
     this.dashboardSpinner = false;
   }
 
+  prepareInput(details: Detail[]) {
+    let detail_index = 0;
+    this.persistDetails = new Array<PersistDetail>(50);
+    for (const detail of details){
+      this.persistDetails[detail_index] = ({ detail_id: detail._id, detail_isCustom: false, detail_selection: '', detail_customVal: ''});
+      ++detail_index;
+    }
+  }
   dropMenusForDetail: Dropmenu[];
   getDropMenuItems(detail_id: string) {
     this.dropMenusForDetail = [];
@@ -51,5 +63,13 @@ export class UserComponent implements OnInit {
       }
     }
     return this.dropMenusForDetail;
+  }
+
+  customValueToggle(checked: boolean, detail_i: number) {
+    if (checked) {
+        this.persistDetails[detail_i].detail_isCustom = true;
+    }else {
+      this.persistDetails[detail_i].detail_isCustom = false;
+    }
   }
 }

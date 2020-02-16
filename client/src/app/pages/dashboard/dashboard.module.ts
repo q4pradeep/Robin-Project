@@ -13,7 +13,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DropdownPromptComponent } from './modals/dropdown-prompt/dropdown-prompt.component';
 import { DashboardPromptComponent } from './modals/dashboard-prompt/dashboard-prompt.component';
 import { FeaturePromptComponent } from './modals/feature-prompt/feature-prompt.component';
-import { RemoveCarPromptComponent } from './modals/remove-car-prompt/remove-car-prompt.component';
+import { RemoveDashboardPromptComponent } from './modals/remove-dashboard-prompt/remove-dashboard-prompt.component';
 import {FormsModule} from '@angular/forms';
 import { RemoveFeaturePromptComponent } from './modals/remove-feature-prompt/remove-feature-prompt.component';
 import { RemoveDropmenuPromptComponent } from './modals/remove-dropmenu-prompt/remove-dropmenu-prompt.component';
@@ -36,7 +36,7 @@ import { RemoveDropmenuPromptComponent } from './modals/remove-dropmenu-prompt/r
     DropdownPromptComponent,
     DashboardPromptComponent,
     FeaturePromptComponent,
-    RemoveCarPromptComponent,
+    RemoveDashboardPromptComponent,
     RemoveFeaturePromptComponent,
     RemoveDropmenuPromptComponent,
   ],
@@ -44,7 +44,7 @@ import { RemoveDropmenuPromptComponent } from './modals/remove-dropmenu-prompt/r
     DropdownPromptComponent,
     DashboardPromptComponent,
     FeaturePromptComponent,
-    RemoveCarPromptComponent,
+    RemoveDashboardPromptComponent,
     RemoveFeaturePromptComponent,
     RemoveDropmenuPromptComponent,
   ],
