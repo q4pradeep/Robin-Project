@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Dashboard} from '../../models/dashboard.model';
 import {Detail} from '../../models/detail.model';
 import {Dropmenu} from '../../models/dropmenu.model';
-import {NbDialogService} from '@nebular/theme';
 import {DetailService} from '../../detail.service';
 import {PersistDetail} from '../../models/persistDetails.model';
 
@@ -20,7 +19,6 @@ export class UserComponent implements OnInit  {
   dashboardSpinner: boolean = false;
   selected = new Array<string>(100);
   constructor(
-    private dialogService: NbDialogService,
     private detailService: DetailService,
   ) {
   }

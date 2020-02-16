@@ -5,7 +5,7 @@ import {
   NbCardModule, NbCheckboxModule, NbInputModule,
   NbMenuModule,
   NbSelectModule,
-  NbSpinnerModule, NbToggleStates,
+  NbSpinnerModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
