@@ -1,3 +1,37 @@
-<p>
-  user works!
-</p>
+<div class="col-12">
+  <nb-card accent="success" [nbSpinner]="dashboardSpinner" nbSpinnerStatus="primary">
+    <nb-card-header *ngIf="dashboards">
+      <div class="text-center">
+        <button *ngFor="let dashboard of dashboards" nbButton outline status="primary" class="mr-3"
+                (click)="openDetails(dashboard._id)">{{dashboard.title}}</button>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="model-info">
+        <div *ngIf="details && details.length!==0">
+          <form class="form">
+            <div class="form-row" *ngFor="let detail of details; index as detail_i">
+              <div class="form-col col-3">
+                <h6>{{detail.title}}</h6>
+              </div>
+              <div class="form-col col-4">
+                <nb-select class="ml-3" placeholder="Exisitng Options" [(selected)]="selected[detail_i]">
+                  <nb-option *ngFor="let dropmenu of getDropMenuItems(detail._id)"
+                             [value]="dropmenu._id">{{dropmenu.title}}</nb-option>
+                </nb-select>
+              </div>
+              <div class="form-col col-1">
+              </div>
+              <div class="form-col col-4">
+                <input nbInput>
+              </div>
+              <div class="col"><hr></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+</div>
+
