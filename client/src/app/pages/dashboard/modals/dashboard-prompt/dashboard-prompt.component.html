@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header>Enter new car</nb-card-header>
+  <nb-card-body>
+    <input #dashboard nbInput placeholder="value">
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button nbButton status="success" (click)="submit(dashboard.value)">Submit</button>
+  </nb-card-footer>
+</nb-card>
