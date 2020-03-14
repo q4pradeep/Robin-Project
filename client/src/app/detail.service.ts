@@ -13,6 +13,13 @@ export class DetailService {
   createDashboard(title: string) {
     return this.webRequestService.post('dashboards', { title });
   }
+
+  getVehicles() {
+    return this.webRequestService.get('vehicles');
+  }
+  postVehicles(data: Array<any>) {
+    return this.webRequestService.post('vehicles', { data });
+  }
   updateDashboard(id: string, title: string) {
     return this.webRequestService.patch(`dashboards/${id}`, { title });
   }

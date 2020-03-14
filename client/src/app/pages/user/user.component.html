@@ -36,7 +36,11 @@
         </div>
       </div>
     </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="success" class="float-left" *ngIf="dashboard_id_p" (click)="openDetails(dashboard_id_p)"> Previous</button>
+      <button nbButton status="success" class="float-right" *ngIf="dashboard_id_n" (click)="openDetails(dashboard_id_n)"> Next</button>
+      <button nbButton status="success" class="float-right" *ngIf="!dashboard_id_n"(click)="saveToDatabase()"> Save Details</button>
+    </nb-card-footer>
   </nb-card>
-  <b
 </div>
 

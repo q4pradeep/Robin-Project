@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('./db/mongoose');
 //loading mongoose models
 
-const { Dashboard, Detail, Dropmenu } = require('./db/models');
+const {Dashboard, Detail, Dropmenu, Vehicle} = require('./db/models');
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 //adding middleware
 
@@ -28,10 +28,25 @@ app.use(function (req, res, next) {
 //route handling
 
 
-//routes
+//vehicles
+app.get('/vehicles', (req, res) => {
+    //query the database
+    Vehicle.find({}).then((vehicles) => {
+        res.send(vehicles);
+    })
+});
+
+app.post('/vehicles', (req, res) => {
+    let data = req.body.data;
+    let newVehicle = new Vehicle({
+        data
+    });
+    newVehicle.save().then((vehicleDoc) => {
+        res.send(vehicleDoc);
+    })
+});
 
 //operation for dashboard
-
 app.get('/dashboards', (req, res) => {
     //query the database
     Dashboard.find({}).then((dashboards) => {
@@ -50,25 +65,21 @@ app.post('/dashboards', (req, res) => {
     })
 });
 
-
 app.patch('/dashboards/:id', (req, res) => {
-    Dashboard.findOneAndUpdate({ _id: req.params.id }, {
+    Dashboard.findOneAndUpdate({_id: req.params.id}, {
         $set: req.body
     }).then(() => {
-        res.send({ 'message': 'updates success' });
+        res.send({'message': 'updates success'});
     });
 });
 
 app.delete('/dashboards/:id', (req, res) => {
-    Dashboard.findOneAndRemove({ _id: req.params.id }).then((removedDashboardDoc) => {
+    Dashboard.findOneAndRemove({_id: req.params.id}).then((removedDashboardDoc) => {
         res.send(removedDashboardDoc);
-
-        // deleteDetailsFromDashboard(removedDashboardDoc._id);
     })
 });
 
 //operation for details of each dashboard
-
 app.get('/dashboards/:dashboardId/details', (req, res) => {
     Detail.find({
         _dashboardId: req.params.dashboardId
@@ -76,8 +87,6 @@ app.get('/dashboards/:dashboardId/details', (req, res) => {
         res.send(details);
     })
 });
-
-
 
 app.post('/dashboards/:dashboardId/details', (req, res) => {
     let newDetail = new Detail({
@@ -89,17 +98,7 @@ app.post('/dashboards/:dashboardId/details', (req, res) => {
     })
 });
 
-
-
 app.patch('/dashboards/:dashboardId/details/:detailId', (req, res) => {
-    // Detail.findOneAndUpdate({ _id: req.param.detailId},
-    //      {
-    //     $set: req.body
-    // },{upsert: true}
-    // ).then(() => {
-    //     res.send({ 'message': 'updates success' });
-
-    // })
     Detail.findOne({
         _id: req.params.detailId,
         _dashboardId: req.params.dashboardId
@@ -115,29 +114,21 @@ app.patch('/dashboards/:dashboardId/details/:detailId', (req, res) => {
     }).then((canUpdateDetails) => {
         if (canUpdateDetails) {
             Detail.findOneAndUpdate({
-                _id: req.params.detailId,
-                _dashboardId: req.params.dashboardId
-            }, {
-                $set: req.body
-            }
+                    _id: req.params.detailId,
+                    _dashboardId: req.params.dashboardId
+                }, {
+                    $set: req.body
+                }
             ).then(() => {
-                res.send({ message: 'Updated successfully.' })
+                res.send({message: 'Updated successfully.'})
             })
         } else {
             res.sendStatus(404);
         }
 
 
-
-
-
-
-
-
-
     })
 });
-
 
 app.delete('/dashboards/:dashboardId/details/:detailId', (req, res) => {
     Detail.findByIdAndRemove({
@@ -148,12 +139,7 @@ app.delete('/dashboards/:dashboardId/details/:detailId', (req, res) => {
     })
 });
 
-
-
-
 //Operation for drop menu list items
-
-
 app.get('/dashboards/:dashboardId/details/:detailId/dropmenus', (req, res) => {
     Dropmenu.find({
         _detailId: req.params.detailId,
@@ -174,7 +160,6 @@ app.get('/dashboards/:dashboardId/subdetails', (req, res) => {
 });
 
 app.post('/dashboards/:dashboardId/details/:detailId/dropmenus', (req, res) => {
-
     Detail.find({
         _detailid: req.params.detailId,
         _dashboardId: req.params._dashboardId
@@ -200,12 +185,10 @@ app.post('/dashboards/:dashboardId/details/:detailId/dropmenus', (req, res) => {
 })
 
 app.patch('/dashboards/:dashboardId/details/:detailId/dropmenus/:dropmenuId', (req, res) => {
-
-
     Dropmenu.findOne({
         _id: req.params.dropmenuId,
         _detailId: req.params.detailId,
-        
+
     }).then((dashboard) => {
         if (dashboard) {
             return true;
@@ -216,46 +199,17 @@ app.patch('/dashboards/:dashboardId/details/:detailId/dropmenus/:dropmenuId', (r
             Dropmenu.findOneAndUpdate({
                 _id: req.params.dropmenuId,
                 _detailId: req.params.detailId
-                
+
             }, {
                 $set: req.body
             }).then(() => {
-                res.send({ message: 'dropmenu updated sucessfully' })
+                res.send({message: 'dropmenu updated sucessfully'})
             })
         } else {
             res.sendStatus(404);
         }
     })
 });
-
-
-
-
-
-
-// app.delete('/dashboards/:dashboardId/details/:detailId/dropmenus/:dropmenuId', (req, res) => {
-//     Dropmenu.find({
-//         _id: req.params.dropmenuId,
-//         _detailid: req.params._detailId
-//         // _dashboardId: req.params._dashboardId
-//     }).then((dashboard) => {
-//         if (dashboard) {
-//             return true;
-//         }
-//         return false;
-//     }).then((canDeleteDropmenu) => {
-//         if (canDeleteDropmenu) {
-//             Dropmenu.findOneAndDelete({
-//                 _id: req.params.dropmenuId,
-//                 _detailId: req.params.detailId
-//             }).then((removedDropmenuDoc) => {
-//                 res.send({ removedDropmenuDoc })
-//             })
-//         } else {
-//             res.sendStatus(404);
-//         }
-//     });
-// });
 
 app.delete('/dashboards/:dashboardId/details/:detailId/dropmenus/:dropmenuId', (req, res) => {
     Dropmenu.findByIdAndRemove({
@@ -265,8 +219,6 @@ app.delete('/dashboards/:dashboardId/details/:detailId/dropmenus/:dropmenuId', (
 
     })
 });
-
-
 
 app.listen(3000, () => {
     console.log("server is running on port 3000");
