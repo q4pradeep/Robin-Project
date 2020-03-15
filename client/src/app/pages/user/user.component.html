@@ -1,0 +1,46 @@
+<div class="col-12">
+  <nb-card accent="success" [nbSpinner]="dashboardSpinner" nbSpinnerStatus="primary">
+    <nb-card-header *ngIf="dashboards">
+      <div class="text-center">
+        <button *ngFor="let dashboard of dashboards" nbButton outline status="primary" class="mr-3"
+                (click)="openDetails(dashboard._id)">{{dashboard.title}}</button>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="model-info">
+        <div *ngIf="details && details.length!==0">
+          <form class="form">
+            <div class="form-row" *ngFor="let detail of details; index as detail_i">
+              <div class="form-col col-3">
+                <h6>{{detail.title}}</h6>
+              </div>
+              <div class="form-col col-3">
+                <nb-select class="ml-3" placeholder="Exisitng Options"  [(selected)]="persistDetails[detail_i].detail_selection"
+                           [hidden]="persistDetails[detail_i].detail_isCustom">
+                  <nb-option *ngFor="let dropmenu of getDropMenuItems(detail._id)"
+                             [value]="dropmenu._id">{{dropmenu.title}}</nb-option>
+                </nb-select>
+                <nb-select class="ml-3" placeholder="Custom Value" [hidden]="!persistDetails[detail_i].detail_isCustom">
+                  <nb-option>Not available</nb-option>
+                </nb-select>
+              </div>
+              <div class="form-col col-2">
+                <nb-checkbox (checkedChange)="customValueToggle($event, detail_i)">Custom Value</nb-checkbox>
+              </div>
+              <div class="form-col col-4">
+                <input name="custom value" nbInput [disabled]="!persistDetails[detail_i].detail_isCustom" [ngModel]="persistDetails[detail_i].detail_customVal">
+              </div>
+              <div class="col"><hr></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="success" class="float-left" *ngIf="dashboard_id_p" (click)="openDetails(dashboard_id_p)"> Previous</button>
+      <button nbButton status="success" class="float-right" *ngIf="dashboard_id_n" (click)="openDetails(dashboard_id_n)"> Next</button>
+      <button nbButton status="success" class="float-right" *ngIf="!dashboard_id_n"(click)="saveToDatabase()"> Save Details</button>
+    </nb-card-footer>
+  </nb-card>
+</div>
+

@@ -7,7 +7,7 @@ import {NbDialogService} from '@nebular/theme';
 import {DropdownPromptComponent} from './modals/dropdown-prompt/dropdown-prompt.component';
 import {DashboardPromptComponent} from './modals/dashboard-prompt/dashboard-prompt.component';
 import {FeaturePromptComponent} from './modals/feature-prompt/feature-prompt.component';
-import {RemoveCarPromptComponent} from './modals/remove-car-prompt/remove-car-prompt.component';
+import {RemoveDashboardPromptComponent} from './modals/remove-dashboard-prompt/remove-dashboard-prompt.component';
 import {RemoveFeaturePromptComponent} from './modals/remove-feature-prompt/remove-feature-prompt.component';
 
 @Component({
@@ -100,8 +100,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  carDeletePrompt() {
-    this.dialogService.open(RemoveCarPromptComponent)
+  dashboardDeletePrompt() {
+    this.dialogService.open(RemoveDashboardPromptComponent)
       .onClose.subscribe(ans => {
       if (ans === 'delete') {
         this.detailService.deleteDashboard(this.dashboard_id).subscribe(response => {

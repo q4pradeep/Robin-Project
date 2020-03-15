@@ -9,5 +9,27 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  fileServer : 'http://localhost/vwAssets/',
   production: false,
+  vehicles: {
+    type: ['suv', 'coupe'],
+    color: ['Blau', 'Grau', 'Gelb', 'Rot', 'Grün'],
+    parts: [
+      {'Dach': 'Dach.png'},
+      {'Heckklappe': 'Heckklappe.png'},
+      {'Kotflügel vorne': 'Kotfl%c3%bcgel%20vorne.png'},
+      {'Motorhaube': 'Motorhaube.png'},
+      {'Rad hinten': 'Rad%20hinten.png'},
+      {'Rad vorne': 'Rad%20vorne.png'},
+      {'Restumfang': 'Restumfang.png'},
+      {'Seitenteil': 'Seitenteil.png'},
+      {'Stoßstange hinten': 'Sto%c3%9fstange%20hinten.png'},
+      {'Stoßstange vorne': 'Sto%c3%9fstange%20vorne.png'},
+      {'Türaußenblech hinten': 'T%c3%bcrau%c3%9fenblech%20hinten.png'},
+      {'Türaußenblech vorne': 'T%c3%bcrau%c3%9fenblech%20vorne.png'},
+      {'Tür hinten': 'T%c3%bcr%20hinten.png'},
+      {'Tür vorne': 'T%c3%bcr%20vorne.png'},
+      {'Windschutzscheibe': 'Windschutzscheibe.png'},
+    ],
+  },
 };
