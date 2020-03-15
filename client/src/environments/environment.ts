@@ -9,28 +9,33 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  fileServer : 'http://localhost/vwAssets/',
+  fileServer: 'http://localhost/vwAssets/',
   resourcePath: '../../../assets/',
   production: false,
+  locations: {
+    'Wolfsburg, DE': [52.4372593, 10.7637403],
+    'Wolfsburg': [52.4372593, 10.7637403],
+
+  },
   vehicles: {
     type: ['SUV', 'COUPE'],
     color: ['Blau', 'Grau', 'Gelb', 'Rot', 'Grün'],
-    parts: [
-      {'name' : 'Dach', 'link': 'Dach.png'},
-      {'name' : 'Heckklappe', 'link': 'Heckklappe.png'},
-      {'name' : 'Kotflügel vorne', 'link': 'Kotfl%c3%bcgel%20vorne.png'},
-      {'name' : 'Motorhaube', 'link': 'Motorhaube.png'},
-      {'name' : 'Rad hinten', 'link': 'Rad%20hinten.png'},
-      {'name' : 'Rad vorne', 'link': 'Rad%20vorne.png'},
-      {'name' : 'Restumfang', 'link': 'Restumfang.png'},
-      {'name' : 'Seitenteil', 'link': 'Seitenteil.png'},
-      {'name' : 'Stoßstange hinten', 'link': 'Sto%c3%9fstange%20hinten.png'},
-      {'name' : 'Stoßstange vorne', 'link': 'Sto%c3%9fstange%20vorne.png'},
-      {'name' : 'Türaußenblech hinten', 'link': 'T%c3%bcrau%c3%9fenblech%20hinten.png'},
-      {'name' : 'Türaußenblech vorne', 'link': 'T%c3%bcrau%c3%9fenblech%20vorne.png'},
-      {'name' : 'Tür hinten', 'link': 'T%c3%bcr%20hinten.png'},
-      {'name' : 'Tür vorne', 'link': 'T%c3%bcr%20vorne.png'},
-      {'name' : 'Windschutzscheibe', 'link': 'Windschutzscheibe.png'},
-    ],
+    parts: {
+      'Dach': 'Dach.png',
+      'Heckklappe': 'Heckklappe.png',
+      'Kotflügel vorne': 'Kotfl%c3%bcgel%20vorne.png',
+      'Motorhaube': 'Motorhaube.png',
+      'Rad hinten': 'Rad%20hinten.png',
+      'Rad vorne': 'Rad%20vorne.png',
+      'Restumfang': 'Restumfang.png',
+      'Seitenteil': 'Seitenteil.png',
+      'Stoßstange hinten': 'Sto%c3%9fstange%20hinten.png',
+      'Stoßstange vorne': 'Sto%c3%9fstange%20vorne.png',
+      'Türaußenblech hinten': 'T%c3%bcrau%c3%9fenblech%20hinten.png',
+      'Türaußenblech vorne': 'T%c3%bcrau%c3%9fenblech%20vorne.png',
+      'Tür hinten': 'T%c3%bcr%20hinten.png',
+      'Tür vorne': 'T%c3%bcr%20vorne.png',
+      'Windschutzscheibe': 'Windschutzscheibe.png',
+    },
   },
 };

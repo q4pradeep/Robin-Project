@@ -18,20 +18,61 @@ export class MapComponent implements OnInit {
 
   map: any;
   imagePath: any;
+  visualData: any;
+
   ngOnInit() {
     this.mapInit();
     this.getMapData();
   }
+
   getMapData() {
     const vehicles = [];
-    this.detailService.getVehicles().subscribe(value => {
+    this.detailService.getVehicles().subscribe(async value => {
       let index;
       for (index = 0; true; index++) {
         if (!value[index]) break;
         vehicles.push(value[index].data);
       }
-      this.getActualLabels(vehicles);
+      this.getActualLabels(vehicles).then(value1 => {
+        this.visualData = value1;
+        setTimeout(() => {
+          this.vehiclesToMap(this.visualData);
+        }, 0);
+      });
     });
+  }
+
+  vehiclesToMap(data) {
+    for (const item of data) {
+      const meta = {
+        co_ordinates: environment.locations[item[3]['selectionName']],
+        brand: item[0]['selectionName'],
+        model: item[1]['selectionName'],
+        yom: item[2]['selectionName'],
+      };
+      const external = [];
+      let index = 4;
+      for (; true; index++) {
+        let name, property;
+        if (!item[index]) break;
+        name = item[index]['detailName'], property = item[index]['selectionName']
+        external.push({name, property});
+      }
+      this.markerInsert(meta, this.getPartLinks(external));
+    }
+  }
+
+  getPartLinks(external) {
+    const partLinks = [];
+    const path = environment.resourcePath;
+    const links = environment.vehicles.parts;
+    const vechicleType = environment.vehicles.type[0].toUpperCase();
+    external.forEach(part => {
+      const color = part.property;
+      const name = part.name;
+      partLinks.push(path + vechicleType + '/' + color + '/' + links[name]);
+    });
+    return partLinks;
   }
 
   async getActualLabels(vehicles) {
@@ -39,21 +80,20 @@ export class MapComponent implements OnInit {
     for await (const vehicle of vehicles) {
       const vehicleData = [];
       for await (const detail of vehicle) {
-        let detailName, selectioname;
+        let detailName, selectionName;
         await this.detailService.getDetailById(detail.detail_id).subscribe(value => {
           detailName = (value[0]['title']);
         });
         await this.detailService.getSelectionById(detail.detail_selection).subscribe(value2 => {
-          selectioname = (value2[0]['title']);
-          // console.log(detailName, selectioname);
-          vehicleData.push({detailName, selectioname});
+          selectionName = (value2[0]['title']);
+          vehicleData.push({detailName, selectionName});
         });
       }
       await vehiclesData.push(vehicleData);
     }
-    console.log(vehiclesData);
-    return vehiclesData;
+    return Promise.resolve(vehiclesData);
   }
+
   mapInit() {
     this.map = L.map('map', {
       center: [52.4372593, 10.7637403],
@@ -62,17 +102,15 @@ export class MapComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; open street map',
     }).addTo(this.map);
-    this.markerInsert();
+    // this.markerInsert();
   }
-  markerInsert() {
-    const imageArray = [];
-    const path = environment.resourcePath;
-    const vechicleType = environment.vehicles.type[0].toUpperCase();
-    const vechicleColor = environment.vehicles.color[0];
-    environment.vehicles.parts.forEach(value => {
-      imageArray.push(path + vechicleType + '/' + vechicleColor + '/' + value.link);
-    });
+
+  markerInsert(meta, parts) {
+    console.log('mapping');
+    const imageArray = parts;
     const images = imageArray;
+    const random = (Math.floor(Math.random() * 9) + 1) / 100;
+    const location = [meta['co_ordinates'][0] + random, meta['co_ordinates'][1] + random]
     mergeImages(images).then(base64Image => {
       this.imagePath = this.sanitizer.bypassSecurityTrustResourceUrl(base64Image);
       const myIcon = L.icon({
@@ -81,7 +119,9 @@ export class MapComponent implements OnInit {
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76],
       });
-      L.marker([52.4372593, 10.7637403], {icon: myIcon}).addTo(this.map);
+      const marker = L.marker(location, {icon: myIcon});
+      marker.bindTooltip(meta.brand + ' ' + meta.model + ',' + meta.yom).openTooltip();
+      marker.addTo(this.map);
     });
   }
 
