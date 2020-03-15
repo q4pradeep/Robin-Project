@@ -1,12 +1,18 @@
 import { WebRequestService } from './web-request.service';
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DetailService {
   constructor(private webRequestService: WebRequestService) {}
-
+  getSelectionById(id: string) {
+    return this.webRequestService.get(`selection/${id}`);
+  }
+  getDetailById(id: string) {
+    return this.webRequestService.get(`detail/${id}`);
+  }
   getDashboards() {
     return this.webRequestService.get('dashboards');
   }

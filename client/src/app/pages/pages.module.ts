@@ -15,6 +15,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
 import {FormsModule} from '@angular/forms';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,10 @@ import {FormsModule} from '@angular/forms';
     PagesComponent,
     HomeComponent,
     UserComponent,
+    MapComponent,
+  ],
+  bootstrap: [
+    MapComponent,
   ],
 })
 export class PagesModule {

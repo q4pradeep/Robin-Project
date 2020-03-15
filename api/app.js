@@ -27,6 +27,23 @@ app.use(function (req, res, next) {
 
 //route handling
 
+//FOR VISUALISATION ONLY
+app.get('/detail/:id', (req, res) => {
+    Detail.find({
+        _id: req.params.id
+    }).then((details) => {
+        res.send(details);
+    })
+});
+app.get('/selection/:id', (req, res) => {
+    Dropmenu.find({
+        _id: req.params.id
+    }).then((dropmenus) => {
+        res.send(dropmenus);
+    })
+});
+//END FOR VISUALISATION ONLY
+
 
 //vehicles
 app.get('/vehicles', (req, res) => {
