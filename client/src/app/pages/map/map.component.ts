@@ -21,8 +21,8 @@ export class MapComponent implements OnInit {
   visualData: any;
 
   ngOnInit() {
-    this.mapInit();
     this.getMapData();
+    this.mapInit();
   }
 
   getMapData() {
@@ -43,9 +43,10 @@ export class MapComponent implements OnInit {
   }
 
   vehiclesToMap(data) {
+    let item_index = 0;
     for (const item of data) {
       const meta = {
-        co_ordinates: environment.locations[item[3]['selectionName']],
+        co_ordinates: environment.locations[item[3]['selectionName']].slice(),
         brand: item[0]['selectionName'],
         model: item[1]['selectionName'],
         yom: item[2]['selectionName'],
@@ -55,10 +56,16 @@ export class MapComponent implements OnInit {
       for (; true; index++) {
         let name, property;
         if (!item[index]) break;
-        name = item[index]['detailName'], property = item[index]['selectionName']
+        name = item[index]['detailName'], property = item[index]['selectionName'];
         external.push({name, property});
       }
-      this.markerInsert(meta, this.getPartLinks(external));
+      const radius = 0.1;
+      meta.co_ordinates[0] += Math.cos((2 * Math.PI / data.length) * item_index) * radius;
+      meta.co_ordinates[1] += Math.sin((2 * Math.PI / data.length) * item_index) * radius / 0.65;
+      ++ item_index;
+      setTimeout(() => {
+        this.markerInsert(meta, this.getPartLinks(external));
+      }, 0);
     }
   }
 
@@ -106,11 +113,10 @@ export class MapComponent implements OnInit {
   }
 
   markerInsert(meta, parts) {
-    console.log('mapping');
     const imageArray = parts;
     const images = imageArray;
-    const random = (Math.floor(Math.random() * 9) + 1) / 100;
-    const location = [meta['co_ordinates'][0] + random, meta['co_ordinates'][1] + random]
+    const location = meta['co_ordinates'].slice();
+    console.log(location);
     mergeImages(images).then(base64Image => {
       this.imagePath = this.sanitizer.bypassSecurityTrustResourceUrl(base64Image);
       const myIcon = L.icon({
