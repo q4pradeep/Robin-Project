@@ -12,14 +12,16 @@ export const environment = {
   fileServer: 'http://localhost/vwAssets/',
   resourcePath: '../../../assets/',
   production: false,
-  locations: {
-    'Wolfsburg, DE': [52.4372593, 10.7637403],
-    'Wolfsburg': [52.4372593, 10.7637403],
-
-  },
   vehicles: {
     type: ['SUV', 'COUPE'],
     color: ['Blau', 'Grau', 'Gelb', 'Rot', 'Grün'],
+    external: ['Dach', 'Heckklappe', 'Kotflügel vorne', 'Motorhaube', 'Rad hinten', 'Rad vorne',
+      'Seitenteil', 'Stoßstange hinten', 'Stoßstange vorne', 'Türaußenblech hinten', 'Türaußenblech vorne',
+      'Tür hinten', 'Tür vorne', 'Windschutzscheibe',
+    ],
+    internal: ['Anzeige_Bedienteil', 'HUD', 'I_Tafel_Oben', 'Kombiinstrument', 'Lenkrad', 'Mittelkonsole',
+      'Restumfangs', 'Tafel_Unten', 'Tuerverkleidung_hinten_oben', 'Tuerverkleidung_hinten_unten',
+      'Tuerverkleidung_vorn_unten', 'Tuerverkleidung_vorn_oben' ],
     parts: {
       'Dach': 'Dach.png',
       'Heckklappe': 'Heckklappe.png',
@@ -36,6 +38,24 @@ export const environment = {
       'Tür hinten': 'T%c3%bcr%20hinten.png',
       'Tür vorne': 'T%c3%bcr%20vorne.png',
       'Windschutzscheibe': 'Windschutzscheibe.png',
+      'Anzeige_Bedienteil': 'Anzeige_Bedienteil.png',
+      'HUD': 'HUD.png',
+      'I_Tafel_Oben': 'I_Tafel_Oben.png',
+      'Kombiinstrument': 'Kombiinstrument.png',
+      'Lenkrad': 'Lenkrad.png',
+      'Mittelkonsole': 'Mittelkonsole.png',
+      'Restumfangs': 'Restumfang.png',
+      'Tafel_Unten': 'Tafel_Unten.png',
+      'Tuerverkleidung_hinten_oben': 'Tuerverkleidung_hinten_oben.png',
+      'Tuerverkleidung_hinten_unten': 'Tuerverkleidung_hinten_unten.png',
+      'Tuerverkleidung_vorn_unten': 'Tuerverkleidung_vorn_unten.png',
+      'Tuerverkleidung_vorn_oben': 'Tuerverkleidung_vorn_oben.png',
     },
+  },
+  locations: {
+    'Wolfsburg, DE': [52.4372593, 10.7637403],
+    'Wolfsburg': [52.4372593, 10.7637403],
+    'Newyork' : [40.910570, -74.248589],
+
   },
 };
