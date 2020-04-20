@@ -52,10 +52,9 @@ export const environment = {
       'Tuerverkleidung_vorn_oben': 'Tuerverkleidung_vorn_oben.png',
     },
   },
+  available_locations: ['Wolfsburg, DE', 'Newyork'],
   locations: {
-    'Wolfsburg, DE': [52.4372593, 10.7637403],
-    'Wolfsburg': [52.4372593, 10.7637403],
-    'Newyork' : [40.910570, -74.248589],
-
+    'Wolfsburg, DE': [[51.1657, 10.4515], 500000, [15.30, 48.01]],
+    'Newyork' : [[39.8283, -98.5795], 1200000, [-85.06, 43.53]],
   },
 };

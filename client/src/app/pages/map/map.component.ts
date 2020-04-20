@@ -18,6 +18,7 @@ export class MapComponent implements OnInit {
   imagePath: any;
   visualData: any;
   mapMarkers: [];
+  isInit: boolean = true;
 
   ngOnInit() {
     this.mapMarkers = [];
@@ -34,7 +35,7 @@ export class MapComponent implements OnInit {
     }).addTo(this.map);
     this.map.options.minZoom = 2.5;
     this.map.options.maxZoom = 7;
-    this.getMapData('internal');
+    this.getMapData('external');
   }
 
 
@@ -82,13 +83,26 @@ export class MapComponent implements OnInit {
 
   vehiclesToMap(data, view) {
     let item_index = 0;
+    const locations = environment.available_locations;
+    const locationData = [];
+    for (const location of locations) {
+      locationData.push({
+        location: location, count: 0, center: environment.locations[location][0],
+        radius: environment.locations[location][1], labelLoc: environment.locations[location][2],
+      });
+    }
     for (const item of data) {
       const meta = {
-        co_ordinates: environment.locations[item[3]['selectionName']].slice(),
+        co_ordinates: environment.locations[item[3]['selectionName']][0].slice(),
         brand: item[0]['selectionName'],
         model: item[1]['selectionName'],
         yom: item[2]['selectionName'],
       };
+      locationData.forEach(value => {
+        if (value['location'] === item[3]['selectionName']) {
+          value['count']++;
+        }
+      });
       const external = [];
       const internal = [];
       const external_parts = environment.vehicles.external;
@@ -116,6 +130,40 @@ export class MapComponent implements OnInit {
         }
       }, 1000);
     }
+    this.drawCircles(locationData);
+  }
+
+  drawCircles(locationData) {
+    if (!this.isInit) return;
+    locationData.forEach(value => {
+      const circle = L.circle(value['center'], {
+        color: 'grey',
+        fillColor: '#888',
+        fillOpacity: 0.4,
+        radius: value['radius'],
+      });
+      circle.addTo(this.map);
+      const LabeledMarker = require('leaflet-labeled-circle');
+      const feature = {
+        'type': 'Feature',
+        'properties': {
+          'text': value['count'],
+          'labelPosition': value['labelLoc'],
+        },
+        'geometry': {
+          'type': 'Point',
+          'coordinates': value['center'],
+        },
+      };
+      const marker = new LabeledMarker(
+        feature.geometry.coordinates.slice(),
+        feature, {
+          markerOptions: {color: '#050'},
+        });
+      marker.addTo(this.map);
+    });
+    this.isInit = false;
+    return;
   }
 
   getPartLinks(parts, loc) {
@@ -143,14 +191,14 @@ export class MapComponent implements OnInit {
         myIcon = L.icon({
           iconUrl: base64Image,
           iconSize: [120, 80],
-          iconAnchor: [22, 94],
-          popupAnchor: [-3, -76],
+          iconAnchor: [60, 40],
+          popupAnchor: [-38, -76],
         });
       } else {
         myIcon = L.icon({
           iconUrl: base64Image,
-          iconSize: [120, 80],
-          iconAnchor: [22, 94],
+          iconSize: [90, 60],
+          iconAnchor: [45, 30],
           popupAnchor: [-38, -76],
         });
       }
