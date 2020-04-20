@@ -5,8 +5,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {environment} from '../../../environments/environment';
 import {DetailService} from '../../detail.service';
 
-declare function require(path: string);
-
 @Component({
   selector: 'ngx-map',
   templateUrl: './map.component.html',
@@ -29,13 +27,16 @@ export class MapComponent implements OnInit {
   mapInit() {
     this.map = L.map('map', {
       center: [52.4372593, 10.7637403],
-      zoom: 3,
+      zoom: 2.5,
     });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; open street map',
+      attribution: '&copy; open street map', maxZoom: 7,
     }).addTo(this.map);
+    this.map.options.minZoom = 2.5;
+    this.map.options.maxZoom = 7;
     this.getMapData('internal');
   }
+
 
   getMapData(view?) {
     !view ? view = 'external' : null;
@@ -96,7 +97,8 @@ export class MapComponent implements OnInit {
       for (; true; index++) {
         let name, property;
         if (!item[index]) break;
-        name = item[index]['detailName'], property = item[index]['selectionName'];
+        name = item[index]['detailName'];
+        property = item[index]['selectionName'];
         if (external_parts.includes(name))
           external.push({name, property});
         if (internal_parts.includes(name))
@@ -132,8 +134,7 @@ export class MapComponent implements OnInit {
   }
 
   markerInsert(meta, parts, view, mapMarkers) {
-    const imageArray = parts;
-    const images = imageArray;
+    const images = parts;
     const location = meta['co_ordinates'].slice();
     let myIcon;
     mergeImages(images).then(base64Image => {
@@ -150,11 +151,11 @@ export class MapComponent implements OnInit {
           iconUrl: base64Image,
           iconSize: [120, 80],
           iconAnchor: [22, 94],
-          popupAnchor: [-3, -76],
+          popupAnchor: [-38, -76],
         });
       }
       const marker = L.marker(location, {icon: myIcon});
-      mapMarkers.push(marker)
+      mapMarkers.push(marker);
       marker.bindTooltip(meta.brand + ' ' + meta.model + ',' + meta.yom).openTooltip();
       marker.addTo(this.map);
     });
