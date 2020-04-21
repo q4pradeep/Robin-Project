@@ -1,4 +1,5 @@
-<div class="map" #map id="map" style="width: 100%; height: 632.2px;"></div>
+<div class="map" (gotpointercapture)="changed()" (click)="changed()" (dblclick)="changed()"  #map id="map" style="width: 100%; height: 632.2px;"></div>
+
 <nb-card>
   <nb-card-body class="text-center">
     <button nbButton outline status="primary" (click)="getMapData('internal')">Interior</button>
@@ -8,5 +9,6 @@
     <button nbButton outline status="primary" (click)="getMapData('external')">Platform</button>
   </nb-card-body>
 </nb-card>
+
 <!--<img  *ngIf="imagePath" [src]="imagePath">-->
 
