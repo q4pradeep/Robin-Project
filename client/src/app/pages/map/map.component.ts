@@ -18,10 +18,12 @@ export class MapComponent implements OnInit {
   imagePath: any;
   visualData: any;
   mapMarkers: [];
+  mapCircles: [];
   isInit: boolean = true;
 
   ngOnInit() {
     this.mapMarkers = [];
+    this.mapCircles = [];
     this.mapInit();
   }
 
@@ -37,7 +39,6 @@ export class MapComponent implements OnInit {
     this.map.options.maxZoom = 7;
     this.getMapData('external');
   }
-
 
   getMapData(view?) {
     !view ? view = 'external' : null;
@@ -97,6 +98,7 @@ export class MapComponent implements OnInit {
         brand: item[0]['selectionName'],
         model: item[1]['selectionName'],
         yom: item[2]['selectionName'],
+        lom: item[3]['selectionName'],
       };
       locationData.forEach(value => {
         if (value['location'] === item[3]['selectionName']) {
@@ -118,7 +120,7 @@ export class MapComponent implements OnInit {
         if (internal_parts.includes(name))
           internal.push({name, property});
       }
-      const radius = 0.1;
+      const radius = 2.5;
       meta.co_ordinates[0] += Math.cos((2 * Math.PI / data.length) * item_index) * radius;
       meta.co_ordinates[1] += Math.sin((2 * Math.PI / data.length) * item_index) * radius / 0.65;
       ++item_index;
@@ -142,6 +144,8 @@ export class MapComponent implements OnInit {
         fillOpacity: 0.4,
         radius: value['radius'],
       });
+      // @ts-ignore
+      this.mapCircles.push(circle);
       circle.addTo(this.map);
       const LabeledMarker = require('leaflet-labeled-circle');
       const feature = {
@@ -160,6 +164,8 @@ export class MapComponent implements OnInit {
         feature, {
           markerOptions: {color: '#050'},
         });
+      // @ts-ignore
+      this.mapCircles.push(marker);
       marker.addTo(this.map);
     });
     this.isInit = false;
@@ -192,20 +198,41 @@ export class MapComponent implements OnInit {
           iconUrl: base64Image,
           iconSize: [120, 80],
           iconAnchor: [60, 40],
-          popupAnchor: [-38, -76],
+          popupAnchor: [0, -50],
         });
       } else {
         myIcon = L.icon({
           iconUrl: base64Image,
           iconSize: [90, 60],
           iconAnchor: [45, 30],
-          popupAnchor: [-38, -76],
+          popupAnchor: [0, -50],
         });
       }
       const marker = L.marker(location, {icon: myIcon});
       mapMarkers.push(marker);
-      marker.bindTooltip(meta.brand + ' ' + meta.model + ',' + meta.yom).openTooltip();
+      const marker_html =
+        `<table><tr><th>Brand</th><td>: ` + meta.brand + `</td></tr>
+                <tr><th>Model</th><td>: ` + meta.model + `</td></tr>
+                <tr><th>Year</th><td>: ` + meta.yom + `</td></tr>
+                <tr><th>Location</th><td>: ` + meta.lom + `</td></tr>
+        </table>`;
+      marker.bindPopup(marker_html,
+        {closeOnClick: false, autoClose: false}).openPopup();
       marker.addTo(this.map);
     });
+  }
+
+  changed() {
+    setTimeout(() => {
+      if (this.map._zoom > 3) {
+        this.mapCircles.forEach(marker => {
+          this.map.removeLayer(marker);
+        });
+      } else {
+        this.mapCircles.forEach(marker => {
+          this.map.addLayer(marker);
+        });
+      }
+    }, 500);
   }
 }
