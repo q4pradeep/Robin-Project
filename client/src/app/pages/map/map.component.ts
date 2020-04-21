@@ -107,8 +107,10 @@ export class MapComponent implements OnInit {
       });
       const external = [];
       const internal = [];
+      const platform = [];
       const external_parts = environment.vehicles.external;
       const internal_parts = environment.vehicles.internal;
+      const platform_parts = environment.vehicles.platform;
       let index = 4;
       for (; true; index++) {
         let name, property;
@@ -119,6 +121,8 @@ export class MapComponent implements OnInit {
           external.push({name, property});
         if (internal_parts.includes(name))
           internal.push({name, property});
+        if (platform_parts.includes(name))
+          platform.push({name, property});
       }
       const radius = 2.5;
       meta.co_ordinates[0] += Math.cos((2 * Math.PI / data.length) * item_index) * radius;
@@ -127,8 +131,10 @@ export class MapComponent implements OnInit {
       setTimeout(() => {
         if (view === 'external') {
           this.markerInsert(meta, this.getPartLinks(external, view), view, this.mapMarkers);
-        } else {
+        } else if (view === 'internal') {
           this.markerInsert(meta, this.getPartLinks(internal, view), view, this.mapMarkers);
+        } else {
+          this.markerInsert(meta, this.getPartLinks(platform, view), view, this.mapMarkers);
         }
       }, 1000);
     }
@@ -141,7 +147,7 @@ export class MapComponent implements OnInit {
       const circle = L.circle(value['center'], {
         color: 'grey',
         fillColor: '#888',
-        fillOpacity: 0.4,
+        fillOpacity: 0.1,
         radius: value['radius'],
       });
       // @ts-ignore
@@ -174,7 +180,7 @@ export class MapComponent implements OnInit {
 
   getPartLinks(parts, loc) {
     let subpath: string;
-    (loc === 'internal') ? subpath = 'interior' : subpath = 'exterior';
+    (loc === 'internal') ? subpath = 'interior' : ((loc === 'external') ? subpath = 'exterior' : subpath = 'platform');
     const partLinks = [];
     const path = environment.resourcePath;
     const links = environment.vehicles.parts;
